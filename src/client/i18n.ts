@@ -76,6 +76,7 @@ export interface UiCopy {
   /** v1.0.0 横向滚动：查看更早轮次 / 回到最新轮次的箭头按钮标签。 */
   scrollEarlier: string
   scrollLatest: string
+  panelDragTitle: string
   segments: {
     miss: string
     hit: string
@@ -162,7 +163,7 @@ const COPY: Record<UiLocale, UiCopy> = {
     currentRound: '当前', roundLabel: (turn) => `轮 ${turn}`,
     roundTitle: (turn, current) => current ? (turn === -1 ? '当前轮' : `当前 · 第 ${turn} 轮`) : `第 ${turn} 轮`,
     roundTotalLabel: (turn, current, total) => `${current ? (turn === -1 ? '当前轮' : `第 ${turn} 轮，当前`) : `第 ${turn} 轮`}，总量 ${total}`,
-    scrollEarlier: '查看更早轮次', scrollLatest: '回到最新轮次',
+    scrollEarlier: '查看更早轮次', scrollLatest: '回到最新轮次', panelDragTitle: '拖动面板；双击“用量”按钮复位到按钮上方',
     segments: { miss: '未命中输入', hit: '缓存输入', output: '模型输出', write: '写入缓存' },
     tierLabel: '计费时段',
     tiers: { peak: '高峰时段', offPeak: '空闲时段' },
@@ -231,7 +232,7 @@ const COPY: Record<UiLocale, UiCopy> = {
     currentRound: 'Current', roundLabel: (turn) => `R${turn}`,
     roundTitle: (turn, current) => current ? (turn === -1 ? 'Current round' : `Current · Round ${turn}`) : `Round ${turn}`,
     roundTotalLabel: (turn, current, total) => `${current ? (turn === -1 ? 'Current round' : `Round ${turn}, current`) : `Round ${turn}`}, total ${total}`,
-    scrollEarlier: 'View earlier rounds', scrollLatest: 'Go to latest rounds',
+    scrollEarlier: 'View earlier rounds', scrollLatest: 'Go to latest rounds', panelDragTitle: 'Drag the panel; double-click the “Usage” button to reset it above the button',
     segments: { miss: 'Cache-miss input', hit: 'Cached input', output: 'Model output', write: 'Cache write' },
     tierLabel: 'Billing tier',
     tiers: { peak: 'Peak', offPeak: 'Off-peak' },
