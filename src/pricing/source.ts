@@ -31,7 +31,7 @@ export interface PricingSource {
 
 /**
  * 当前官方在售模型定价表（双币种 / 1M tokens，区分高峰/空闲时段）。
- * 来源：官方定价页（2026-09-10 核验）
+ * 来源：官方定价页（2026-09-18 复核，数值与 2026-09-10 调价一致）
  *  - 中文页 https://api-docs.deepseek.com/zh-cn/quick_start/pricing（CNY 报价）
  *  - 英文页 https://api-docs.deepseek.com/quick_start/pricing（USD 报价）
  * 高峰时段（北京时间周一至周五 09:00–12:00、14:00–18:00 = UTC 01:00–04:00、06:00–10:00）
@@ -70,8 +70,8 @@ export const BUILTIN_PRICING: Record<string, ModelPricing> = {
 BUILTIN_PRICING['deepseek-v4-flash'] = FLASH_PRICING
 BUILTIN_PRICING['deepseek-v4-flash-vision-exp'] = FLASH_PRICING
 
-/** 内置表的核验日期（来源：官方定价页中/英文版，2026-09-10 抓取核验）。 */
-export const BUILTIN_VERIFIED_AT = Date.parse('2026-09-10T00:00:00Z')
+/** 内置表的核验日期（来源：官方定价页中/英文版，2026-09-18 抓取复核）。 */
+export const BUILTIN_VERIFIED_AT = Date.parse('2026-09-18T00:00:00Z')
 
 /** 未收录模型回退：按 deepseek-flash 刊例价估算并标记 ≈。 */
 export const FALLBACK_PRICING: ModelPricing = FLASH_PRICING
