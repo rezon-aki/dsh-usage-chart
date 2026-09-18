@@ -1,5 +1,7 @@
 # dsh-usage-chart
 
+> **这是 fork。** `rezon-aki/dsh-usage-chart` 基于上游 [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5，另含四项改动：两个上游缺陷修复（价格覆盖文件源在启动时被销毁；DSH ≥ 0.1.2 会话节点取错来源）、fixed 面板锚点修复、面板可拖动。完整清单、安装与跟上游同步方式见 [FORK_NOTES.md](./FORK_NOTES.md)。最新发布：`v1.1.5-dsh.1`。
+
 > DeepSeek 用量 / 成本 / 余额仪表盘 · DSH Web 插件
 
 [![npm version](https://img.shields.io/npm/v/dsh-usage-chart)](https://www.npmjs.com/package/dsh-usage-chart)
