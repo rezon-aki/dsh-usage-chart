@@ -3,7 +3,7 @@
  * 一行展示：输入 / 输出 / 缓存命中率 / 成本估算 / 模型 / 余额 + 细上下文压力条，
  * 点击展开可视化面板。成本只消费 /pricing 快照（ADR 2），快照未就绪时隐藏成本位。
  */
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from 'react'
 import type { TokenUsageBuckets } from '../pricing/calc.ts'
 import { billedInputTokens, cacheHitPercent, formatMoney, formatTokens } from '../pricing/calc.ts'
 import { currencySymbol, useBalance } from './balance.ts'
@@ -52,6 +52,9 @@ function ChartIcon(): JSX.Element {
   )
 }
 
+/** 面板拖动偏移持久化键（旧版本同键，兼容已有数据）。 */
+const PANEL_POS_KEY = 'dsh-usage-chart:panel-pos'
+
 /**
  * fixed 定位的包含块：任一 transform/filter/contain 祖先都会把定位基准从视口改成它自己
  * （皮肤给 dock 子元素加了 backdrop-filter，面板随之整体偏移）。
@@ -69,6 +72,20 @@ function containingBlock(start: HTMLElement): Element | null {
   return null
 }
 
+/** 读取已持久化的面板偏移（缺失/非法回默认 {0,0}）。 */
+function readPanelOffset(): { x: number; y: number } {
+  try {
+    const raw = typeof localStorage === 'undefined' ? null : localStorage.getItem(PANEL_POS_KEY)
+    if (raw === null) return { x: 0, y: 0 }
+    const parsed = JSON.parse(raw) as { x?: unknown; y?: unknown }
+    const x = typeof parsed.x === 'number' && Number.isFinite(parsed.x) ? parsed.x : 0
+    const y = typeof parsed.y === 'number' && Number.isFinite(parsed.y) ? parsed.y : 0
+    return { x, y }
+  } catch {
+    return { x: 0, y: 0 }
+  }
+}
+
 export function UsageIndicator(props: DockUsageProps): JSX.Element | null {
   const { useSession, useChat, useProjection, sessionId } = props
   const locale = useUiLocale()
@@ -79,6 +96,43 @@ export function UsageIndicator(props: DockUsageProps): JSX.Element | null {
   const toggleRef = useRef<HTMLButtonElement | null>(null)
   // 悬浮面板的锚点坐标（fixed 定位，始终在可视区内）
   const [anchor, setAnchor] = useState<{ left: number; width: number; bottom: number } | null>(null)
+  // 面板可拖动（transform 偏移，持久化）；双击「用量」按钮复位到按钮正上方。
+  const [offset, setOffset] = useState<{ x: number; y: number }>(() => readPanelOffset())
+  const offsetRef = useRef(offset)
+  offsetRef.current = offset
+  const dragRef = useRef<{ startX: number; startY: number; offsetX: number; offsetY: number } | null>(null)
+
+  const resetPanelPosition = (): void => {
+    setOffset({ x: 0, y: 0 })
+    try {
+      localStorage.removeItem(PANEL_POS_KEY)
+    } catch {
+      // ignore
+    }
+  }
+
+  const beginDrag = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    if (!expanded || dragRef.current !== null) return
+    dragRef.current = { startX: event.clientX, startY: event.clientY, offsetX: offset.x, offsetY: offset.y }
+    event.currentTarget.setPointerCapture?.(event.pointerId)
+    event.preventDefault()
+    document.body.style.userSelect = 'none'
+  }
+  const moveDrag = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    const drag = dragRef.current
+    if (drag === null) return
+    setOffset({ x: drag.offsetX + event.clientX - drag.startX, y: drag.offsetY + event.clientY - drag.startY })
+  }
+  const endDrag = (): void => {
+    if (dragRef.current === null) return
+    dragRef.current = null
+    document.body.style.userSelect = ''
+    try {
+      localStorage.setItem(PANEL_POS_KEY, JSON.stringify(offsetRef.current))
+    } catch {
+      // ignore
+    }
+  }
 
   const totals = useProjection('tokenUsage') as TokenUsageBuckets | undefined
   const pressure = useProjection('contextPressure') as { pressureTokens?: number; projectedTokens?: number; contextWindow?: number } | undefined
@@ -170,7 +224,9 @@ export function UsageIndicator(props: DockUsageProps): JSX.Element | null {
       ? `${copy.balance} ${currencySymbol(balance.currency)}${balance.totalBalance}`
       : `${copy.balance} --`
 
-  const toggle = (): void => {
+  const toggle = (event: ReactMouseEvent<HTMLButtonElement>): void => {
+    // 双击由 onDoubleClick 复位处理，避免第二次点击把面板又收起。
+    if (event.detail >= 2) return
     setExpanded((v) => !v)
   }
 
@@ -183,6 +239,7 @@ export function UsageIndicator(props: DockUsageProps): JSX.Element | null {
         aria-expanded={expanded}
         title={expanded ? copy.collapseUsage : copy.expandUsage}
         onClick={toggle}
+        onDoubleClick={resetPanelPosition}
       >
         <ChartIcon />
         <span className="duc-toggle-label">{copy.usage}</span>
@@ -225,8 +282,17 @@ export function UsageIndicator(props: DockUsageProps): JSX.Element | null {
       {expanded && anchor !== null && (
         <div
           className="duc-popover"
-          style={{ left: anchor.left, width: anchor.width, bottom: anchor.bottom }}
+          style={{ left: anchor.left, width: anchor.width, bottom: anchor.bottom, transform: `translate(${offset.x}px, ${offset.y}px)` }}
         >
+          <div
+            className="duc-panel-handle"
+            role="presentation"
+            title={copy.panelDragTitle}
+            onPointerDown={beginDrag}
+            onPointerMove={moveDrag}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+          />
           <UsagePanel
             sessionId={sessionId}
             locale={locale}
