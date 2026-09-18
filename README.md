@@ -1,5 +1,7 @@
 # dsh-usage-chart
 
+> **This is a fork.** `rezon-aki/dsh-usage-chart` tracks upstream [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 plus four changes: two upstream bug fixes (the pricing-file source is disposed at startup, and conversation nodes are read from the wrong place on DSH ≥ 0.1.2), a fixed-position anchoring fix, and a draggable panel. Full list, install and upstream-sync instructions: [FORK_NOTES.md](./FORK_NOTES.md). Latest release: `v1.1.5-dsh.1`.
+
 > A usage, cost, and account-balance dashboard for DeepSeek Harness Web.
 
 [![npm version](https://img.shields.io/npm/v/dsh-usage-chart)](https://www.npmjs.com/package/dsh-usage-chart)
