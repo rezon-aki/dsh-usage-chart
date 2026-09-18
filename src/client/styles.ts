@@ -92,6 +92,22 @@ export const PLUGIN_CSS = `
 }
 body[data-ds-dark-theme] .duc-popover { box-shadow: 0 16px 40px rgba(0, 0, 0, 0.42); }
 
+/* 面板拖动手柄（顶部细条；双击「用量」按钮复位见 UsageIndicator） */
+.duc-panel-handle {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  right: 10px;
+  height: 8px;
+  cursor: grab;
+  border-radius: 5px;
+  opacity: 0.35;
+  touch-action: none;
+  background: radial-gradient(circle, currentColor 1px, transparent 1.4px) center / 8px 2px no-repeat;
+}
+.duc-panel-handle:hover { opacity: 0.7; }
+.duc-panel-handle:active { cursor: grabbing; opacity: 0.9; }
+
 .duc-panel {
   width: 100%;
   padding: 0 14px;
