@@ -251,7 +251,7 @@ test('estimateCost / pricingFor keep v0.1 compat semantics', () => {
   assert.equal(pricingFor('deepseek-flash').estimated, false)
   assert.equal(pricingFor('deepseek-v4-flash').estimated, false)
   assert.equal(pricingFor('unknown-model').estimated, true)
-  assert.equal(BUILTIN_VERIFIED_AT, Date.parse('2026-09-10T00:00:00Z'))
+  assert.equal(BUILTIN_VERIFIED_AT, Date.parse('2026-09-18T00:00:00Z'))
 })
 
 function responseRecorder() {
