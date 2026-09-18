@@ -1,6 +1,26 @@
 # dsh-usage-chart
 
-> **This is a fork.** `rezon-aki/dsh-usage-chart` tracks upstream [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 plus four changes: two upstream bug fixes (the pricing-file source is disposed at startup, and conversation nodes are read from the wrong place on DSH ≥ 0.1.2), a fixed-position anchoring fix, and a draggable panel. Full list, install and upstream-sync instructions: [FORK_NOTES.md](./FORK_NOTES.md). Latest release: `v1.1.5-dsh.1`.
+## What this fork changes (vs upstream v1.1.5)
+
+A maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.1`. Symptom → root cause → fix for each item lives in **[FORK_NOTES.md](./FORK_NOTES.md)**; summary:
+
+**Compatibility**
+
+- **Conversation nodes moved on DSH ≥ 0.1.2**: the chat snapshot now lives in its own scoped source (`props.useChat`), so the old `session.chat.legacy.nodes` read returns an empty array → the per-turn cost badge ("本轮 ≈ ¥0.0x"), the model chip in the indicator line and the observed-round fallback all work again.
+- **Fixed-position anchoring rewritten by skins**: maid-atelier adds `backdrop-filter` to the dock children, which turns the indicator row into the containing block of our `position: fixed` panel → the panel no longer flies off to the right of the screen.
+
+**Fixes**
+
+- **The `pricing.json` override never applied** (upstream has the same bug): `ctx.effect` was written as a call, so the file source was disposed at apply time → overrides and the file watcher work now. Filed upstream as [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10).
+
+**Features**
+
+- **Draggable usage panel**: drag by the handle at its top edge, offset persisted in `localStorage` (`dsh-usage-chart:panel-pos`), double-click the usage toggle to reset it above the button.
+
+**Maintenance**
+
+- Built-in pricing re-verified against the official CN/EN pricing pages (2026-09-18; rates unchanged since the 2026-09-10 adjustment, timestamp only).
+
 
 > A usage, cost, and account-balance dashboard for DeepSeek Harness Web.
 

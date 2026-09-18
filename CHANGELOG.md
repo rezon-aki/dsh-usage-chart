@@ -11,6 +11,27 @@ All notable changes to this project are documented here. The format follows [Kee
   - Updated test mocks in `tests/core.test.mjs`, `tests/pricing.test.mjs`, and `tests/rounds.test.mjs` to properly track and execute Cordis effect disposers in `after()`.
   - Added regression test covering the `/pricing` route with user `pricing.json` overrides enabled at startup.
 
+## [1.1.5-dsh.1] - 2026-09-18
+
+Maintenance release: upstream v1.1.5 (`dacc1f5`) plus the changes below. Symptom → root cause → fix for each item: [FORK_NOTES.md](./FORK_NOTES.md).
+
+### Compatibility
+
+- **DSH ≥ 0.1.2: conversation nodes moved** — the chat snapshot now lives in its own scoped source (`props.useChat`); the old `session.chat.legacy.nodes` read returns an empty array, which hid the per-turn "本轮 ≈ ¥0.0x" cost badge, dropped the model chip from the indicator line and collapsed the panel's observed-round fallback into turn 0. Adds `useSessionNodes(useChat, useSession)`: chat source first, old path kept as a fallback, both hooks called unconditionally to keep the hook order stable.
+- **Fixed-position anchoring rewritten by skins** — maid-atelier puts `backdrop-filter` on `[data-slot='conversation.composer.dock'] > *`, which makes the indicator row the containing block of the `position: fixed` popover; the viewport anchor was then applied twice and the panel flew off to the right. Looks up the nearest containing block and converts the anchor into its coordinate space, plus a clamp fix for narrow windows.
+
+### Fixed
+
+- **The `pricing.json` override never applied (upstream has the same bug)** — `ctx.effect(() => fileSource.dispose(), …)` is an expression-bodied arrow: it calls `dispose()` while the fiber is built, so the file source dies before its first read; overrides never resolve and the watcher never installs. Now returns a disposer; the test ctx mocks follow cordis semantics (keep the returned disposer, release it in `after()`) and a `/pricing` route regression test covers the override path (fails against the old form). Filed upstream as [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10).
+
+### Added
+
+- **Draggable usage panel** — drag by the handle at its top edge; the offset is persisted in `localStorage` (`dsh-usage-chart:panel-pos`); double-clicking the usage toggle resets the panel above the button.
+
+### Changed
+
+- **Builtin pricing re-verified (2026-09-18)** — checked item by item against the official CN/EN pricing pages; rates are unchanged since the 2026-09-10 adjustment (flash off-peak CNY 1 / 0.02 / 4, pro off-peak CNY 4.5 / 0.15 / 13.5, peak ×2). Verification timestamp only.
+
 ## [1.1.5] - 2026-09-12
 
 ### Changed
