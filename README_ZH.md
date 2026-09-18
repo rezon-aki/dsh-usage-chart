@@ -1,6 +1,26 @@
 # dsh-usage-chart
 
-> **这是 fork。** `rezon-aki/dsh-usage-chart` 基于上游 [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5，另含四项改动：两个上游缺陷修复（价格覆盖文件源在启动时被销毁；DSH ≥ 0.1.2 会话节点取错来源）、fixed 面板锚点修复、面板可拖动。完整清单、安装与跟上游同步方式见 [FORK_NOTES.md](./FORK_NOTES.md)。最新发布：`v1.1.5-dsh.1`。
+## 本 fork 的改动（相对上游 v1.1.5）
+
+[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 的维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.1`。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**，先给结论：
+
+**兼容适配**
+
+- **DSH ≥ 0.1.2 会话节点换了来源**：节点已搬去独立 chat 槽位源（`props.useChat`），旧读法 `session.chat.legacy.nodes` 恒为空数组 → 修好后「本轮 ≈ ¥0.0x」成本徽章、指示器行的模型名、面板实时回退轮次都恢复正常。
+- **fixed 面板定位基准被皮肤改写**：maid-atelier 给 dock 子元素加 `backdrop-filter`，使 `position: fixed` 的包含块变成指示器行本身 → 换算后不再把面板甩到屏幕右侧。
+
+**缺陷修复**
+
+- **`pricing.json` 价格覆盖从未生效**（上游同病）：`ctx.effect` 写成了「当场调用 dispose」，文件源在 apply 阶段就被销毁 → 现在覆盖价与文件变更监听都能工作；已提上游 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)。
+
+**新增功能**
+
+- **用量面板可拖动**：顶部把手拖动、位置持久化（`localStorage: dsh-usage-chart:panel-pos`）、双击「用量」按钮复位到按钮正上方。
+
+**维护**
+
+- 内置定价表按官方中英文定价页复核（2026-09-18；数值与上游 2026-09-10 调价一致，仅更新核验时间戳）。
+
 
 > DeepSeek 用量 / 成本 / 余额仪表盘 · DSH Web 插件
 
