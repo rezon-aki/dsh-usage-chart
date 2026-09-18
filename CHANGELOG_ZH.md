@@ -3,6 +3,27 @@
 本文件记录本项目所有重要变更。格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。英文版见 [CHANGELOG.md](./CHANGELOG.md)。
 
+## [1.1.5-dsh.1] - 2026-09-18
+
+fork 维护版本：上游 v1.1.5（`dacc1f5`）+ 下列改动。逐条「现象 → 根因 → 修法」见 [FORK_NOTES.md](./FORK_NOTES.md)。
+
+### 兼容适配
+
+- **DSH ≥ 0.1.2：会话节点换了来源**——节点已搬去独立 chat 槽位标准源（`props.useChat`），旧读法 `session.chat.legacy.nodes` 恒为空数组，导致每条助手消息尾部的「本轮 ≈ ¥0.0x」成本徽章消失、指示器行的模型名缺失、面板实时回退轮次全部堆到 turn 0。新增 `useSessionNodes(useChat, useSession)`：新源优先、旧路径保留回退，两个 hook 无条件调用以保证 hook 顺序稳定。
+- **fixed 面板定位基准被皮肤改写**——maid-atelier 给 `[data-slot='conversation.composer.dock'] > *` 加了 `backdrop-filter`，使 `position: fixed` 的包含块变成指示器行本身，面板被按视口坐标二次平移、甩到屏幕右侧。改为查找最近包含块并换算坐标，同时修正窄窗口下的夹取范围。
+
+### 修复
+
+- **`pricing.json` 价格覆盖从未生效（上游同病）**——`ctx.effect(() => fileSource.dispose(), …)` 是表达式体箭头：注册时当场调用 `dispose()`，文件源在 apply 阶段即被销毁，覆盖价不参与解析、变更监听也不建立。改为返回 disposer；测试 ctx mock 按 cordis 语义重写（保留 disposer、`after()` 释放），新增 `/pricing` 路由回归用例（旧写法下失败）。已提上游 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)。
+
+### 新增
+
+- **用量面板可拖动**——顶部把手拖动，偏移持久化于 `localStorage`（`dsh-usage-chart:panel-pos`）；双击「用量」按钮复位到按钮正上方。
+
+### 变更
+
+- **内置定价表复核（2026-09-18）**——逐项核对官方中英文定价页，数值与上游 2026-09-10 调价一致（flash 空闲 CNY 1 / 0.02 / 4、pro 空闲 CNY 4.5 / 0.15 / 13.5，高峰 ×2），仅更新核验时间戳。
+
 ## [1.1.5] - 2026-09-12
 
 ### 变更与优化
