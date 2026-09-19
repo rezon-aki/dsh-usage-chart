@@ -1,10 +1,10 @@
-# 本 fork 做了什么（相对上游 v1.1.5）
+# 本 fork 做了什么（相对上游 v1.1.6）
 
-- **上游基线**：[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5（commit `dacc1f5`，2026-09-11）。
+- **上游基线**：[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.6（commit `45d0671`，2026-09-19）。
 - **性质与署名**：本仓库是上游的**非官方**维护分支，未获原作者背书；沿用上游 MIT 许可与版权署名（见 `LICENSE` / `THIRD_PARTY_NOTICES.md`）。
 - **本仓库**：`rezon-aki/dsh-usage-chart`，默认分支 `dsh-0.1.5`；`main` 与上游一致，仅用于同步。
 - **当前发布**：tag `v1.1.5-dsh.2`（上一版 `v1.1.5-dsh.1`）。
-- **净变更**：见 [与上游的对比视图](https://github.com/Max-Samson/dsh-usage-chart/compare/main...rezon-aki:dsh-0.1.5)；改动集中在 `src/client/`（host 半区只有一行修复）。
+- **净变更**：见 [与上游的对比视图](https://github.com/Max-Samson/dsh-usage-chart/compare/main...rezon-aki:dsh-0.1.5)；相对 v1.1.6 全部集中在 `src/client/`（原来那一行 host 修复已随上游 v1.1.6 回流）。
 
 ---
 
@@ -18,7 +18,7 @@
 
 **修法**：新增 `useSessionNodes(useChat, useSession)` —— 新源优先、旧路径保留回退（兼容老内核），两个 hook 无条件按固定顺序调用（否则 hook 数随数据变化会错位后续 hook 状态）。`CostBadge` 与 `UsageIndicator` 改走它。（提交 `f06cbeb`）
 
-**影响面**：所有 DSH ≥ 0.1.2 的用户；上游 1.1.5 至今未修。
+**影响面**：所有 DSH ≥ 0.1.2 的用户；上游 1.1.6 仍未修（已提 [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)）。
 
 ### 2. 皮肤 backdrop-filter 改写 fixed 定位基准 → 面板跑到屏幕右侧
 
@@ -38,9 +38,9 @@
 
 **根因**：`src/index.ts` 写成 `ctx.effect(() => fileSource.dispose(), …)`。表达式体箭头 = **注册时立刻调用** `dispose()`，并把 `undefined` 当 disposer 注册。文件源在被第一次读盘前就销毁了，`entries` 恒为 `{}`、watcher 也不会建立。
 
-**修法**：改成返回 disposer（`ctx.effect(() => () => fileSource.dispose(), …)`）；测试里的 ctx mock 按 cordis 语义重写（执行 setup、保留返回的 disposer、在 `after()` 释放），并新增 `/pricing` 路由回归用例 —— **旧写法下该用例失败**，可当作修复的证据。（提交 `885b0dc`；已提上游 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)）
+**修法**：改成返回 disposer（`ctx.effect(() => () => fileSource.dispose(), …)`）；测试里的 ctx mock 按 cordis 语义重写（执行 setup、保留返回的 disposer、在 `after()` 释放），并新增 `/pricing` 路由回归用例 —— **旧写法下该用例失败**，可当作修复的证据。（提交 `885b0dc`；已随上游 v1.1.6 合并收录，见 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)）
 
-**影响面**：所有用户 —— 这个功能在上游 1.1.5 里从未工作过。
+**影响面**：所有用户 —— 这个功能在上游 1.1.5 及更早版本里从未工作过（v1.1.6 已修复）。
 
 ### 4. 会话总计与逐轮之和对不上（按「当前时段」估算）
 
@@ -92,7 +92,7 @@ git fetch upstream --tags
 git rebase upstream/main          # 冲突通常只在 src/client/UsageIndicator.tsx（改动 2、5 都落在这里）
 ```
 
-上游若合并了本仓库提的修复（如 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)），rebase 时对应用 `git rebase --skip` 丢弃即可。
+上游若合并了本仓库提的修复，rebase 时对应用 `git rebase --skip`（或 `git rebase --onto`）丢弃即可 —— [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10) 已随 v1.1.6 收录，对应提交 `885b0dc` 已在本次同步中丢弃。
 
 ## 验证
 
