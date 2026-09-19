@@ -2,7 +2,7 @@
 
 ## 本 fork 的改动（相对上游 v1.1.5）
 
-[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 的维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.1`。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**，先给结论：
+[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 的维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.2`。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**，先给结论：
 
 **兼容适配**
 
@@ -12,6 +12,7 @@
 **缺陷修复**
 
 - **`pricing.json` 价格覆盖从未生效**（上游同病）：`ctx.effect` 写成了「当场调用 dispose」，文件源在 apply 阶段就被销毁 → 现在覆盖价与文件变更监听都能工作；已提上游 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)。
+- **会话总计口径**：原为「当前时段 × 会话总量」估算，高峰时段与逐轮徽章之和最多差一倍 → 改为 **Σ 各轮成本**；指示器行的模型名在 0.1.2+ 上回退取最后一轮历史。
 
 **新增功能**
 
