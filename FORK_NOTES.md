@@ -1,6 +1,7 @@
 # 本 fork 做了什么（相对上游 v1.1.5）
 
 - **上游基线**：[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5（commit `dacc1f5`，2026-09-11）。
+- **性质与署名**：本仓库是上游的**非官方**维护分支，未获原作者背书；沿用上游 MIT 许可与版权署名（见 `LICENSE` / `THIRD_PARTY_NOTICES.md`）。
 - **本仓库**：`rezon-aki/dsh-usage-chart`，默认分支 `dsh-0.1.5`；`main` 与上游一致，仅用于同步。
 - **当前发布**：tag `v1.1.5-dsh.2`（上一版 `v1.1.5-dsh.1`）。
 - **净变更**：见 [与上游的对比视图](https://github.com/Max-Samson/dsh-usage-chart/compare/main...rezon-aki:dsh-0.1.5)；改动集中在 `src/client/`（host 半区只有一行修复）。
