@@ -2,7 +2,7 @@
 
 ## What this fork changes (vs upstream v1.1.5)
 
-A maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.2`. Symptom → root cause → fix for each item lives in **[FORK_NOTES.md](./FORK_NOTES.md)**; summary:
+An **unofficial** maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.2`. It keeps the upstream MIT license and attribution and is not endorsed by the original author. Symptom → root cause → fix for each item lives in **[FORK_NOTES.md](./FORK_NOTES.md)**; summary:
 
 **Compatibility**
 

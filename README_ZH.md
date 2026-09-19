@@ -2,7 +2,7 @@
 
 ## 本 fork 的改动（相对上游 v1.1.5）
 
-[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 的维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.2`。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**，先给结论：
+[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 的**非官方**维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.2`；沿用上游 MIT 许可与署名，未获原作者背书。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**，先给结论：
 
 **兼容适配**
 
