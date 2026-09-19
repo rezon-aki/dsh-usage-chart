@@ -3,6 +3,13 @@
 本文件记录本项目所有重要变更。格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。英文版见 [CHANGELOG.md](./CHANGELOG.md)。
 
+## [1.1.5-dsh.2] - 2026-09-19
+
+### 修复
+
+- **会话总计改为「Σ 各轮成本」**——原来的总计是「会话总量 × 刊例价」，时段取的是打开面板那一刻（`Date.now()`），高峰时段会与逐轮徽章之和相差最多一倍。现在指示器行与面板共用 `sumRoundCosts()`（`src/client/rounds/types.ts`），与逐轮徽章天然自洽；历史不可用时才退回原估算。
+- **模型名回退**——DSH 0.1.2+ 的快照节点不再带 `provenance` / `requestConfig`，指示器行的模型名改为回退取**最后一轮历史**的模型（面板原有逻辑补齐到指示器行）。
+
 ## [1.1.5-dsh.1] - 2026-09-18
 
 fork 维护版本：上游 v1.1.5（`dacc1f5`）+ 下列改动。逐条「现象 → 根因 → 修法」见 [FORK_NOTES.md](./FORK_NOTES.md)。
