@@ -13,12 +13,16 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [1.1.5-dsh.2] - 2026-09-19
 
+> In one line: the session total is now priced per conversation round, so it matches the per-turn badges and no longer doubles when you open it during peak hours.
+
 ### Fixed
 
 - **Session total is now the sum of per-round costs** — it used to be "session totals × list price" with the tier taken from the moment the panel opened (`Date.now()`), which could differ from the sum of the per-turn badges by up to 2× during peak hours. The indicator line and the panel now share `sumRoundCosts()` (`src/client/rounds/types.ts`) and always agree with the badges; the old estimate is kept only as a fallback when history is unavailable.
 - **Model attribution fallback** — snapshot nodes no longer carry `provenance` / `requestConfig` on DSH 0.1.2+, so the indicator line falls back to the model of the **last round in history** (the panel already did this).
 
 ## [1.1.5-dsh.1] - 2026-09-18
+
+> In one line: on DSH ≥ 0.1.2 the cost badge, the model name and the skin-proof panel position all come back, and the `pricing.json` override finally works.
 
 Maintenance release: upstream v1.1.5 (`dacc1f5`) plus the changes below. Symptom → root cause → fix for each item: [FORK_NOTES.md](./FORK_NOTES.md).
 

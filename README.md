@@ -1,28 +1,23 @@
 # dsh-usage-chart
 
-## What this fork changes (vs upstream v1.1.6)
+## What this fork fixes (vs upstream v1.1.6)
 
-An **unofficial** maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.6 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.2`. It keeps the upstream MIT license and attribution and is not endorsed by the original author. Symptom → root cause → fix for each item lives in **[FORK_NOTES.md](./FORK_NOTES.md)**; summary:
+An **unofficial** maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.6 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.2`. It keeps the upstream MIT license and attribution and is not endorsed by the original author. Per-item symptom → root cause → fix notes live in **[FORK_NOTES.md](./FORK_NOTES.md)**.
 
-**Compatibility**
+**Problems this fork fixes (what you would actually notice)**
 
-- **Conversation nodes moved on DSH ≥ 0.1.2**: the chat snapshot now lives in its own scoped source (`props.useChat`), so the old `session.chat.legacy.nodes` read returns an empty array → the per-turn cost badge ("本轮 ≈ ¥0.0x"), the model chip in the indicator line and the observed-round fallback all work again (filed upstream as [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)).
-- **Fixed-position anchoring rewritten by skins**: maid-atelier adds `backdrop-filter` to the dock children, which turns the indicator row into the containing block of our `position: fixed` panel → the panel no longer flies off to the right of the screen.
+- **The per-turn cost badge disappears after upgrading DSH** — the "本轮 ≈ ¥0.0x" badge, the model name in the indicator line and the panel fallback rounds all go blank on DSH ≥ 0.1.2, with no error message: the runtime moved the conversation data to a new chat source while the plugin kept reading the old one. They are all back now (filed upstream as [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)).
+- **The usage panel jumps off to the side once a skin is installed** — the panel is a fixed-position overlay, and a skin blur/transform effect silently changes what "fixed" is measured against. **A more compatible anchoring algorithm**: it no longer assumes the viewport is always the reference, so the panel opens above the "Usage" button under any skin, and with no such skin the position is exactly what it was before.
+- **The `pricing.json` override never took effect** — the file watcher shut itself down while the plugin was starting, so custom prices were ignored no matter what the file said. Fixed, and already released upstream in v1.1.6 ([PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)).
+- **The session total did not match the per-turn badges (up to 2× off at peak hours)** — the total used to be "whole-session tokens × the price at the moment you open the panel". **Cost granularity is now per conversation round**: every round is priced at its own time and model, so the total equals the sum of the badges and no longer changes depending on when you look at it.
 
-**Fixes**
+**Nicer to use**
 
-- **The `pricing.json` override never applied** (upstream has the same bug): `ctx.effect` was written as a call, so the file source was disposed at apply time → overrides and the file watcher work now. Merged upstream in v1.1.6 ([PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)).
-- **Session total semantics**: it was estimated as "current tier × session totals", up to 2× off from the sum of the per-turn badges during peak hours → now it is the **sum of per-round costs**, and the indicator's model chip falls back to the last round in history on 0.1.2+.
-
-**Features**
-
-- **Draggable usage panel**: drag by the handle at its top edge, offset persisted in `localStorage` (`dsh-usage-chart:panel-pos`), double-click the usage toggle to reset it above the button.
+- **Draggable panel** — drag it by the handle at its top edge; the position is remembered in `localStorage`; double-click the "Usage" button to reset it above the button.
 
 **Maintenance**
 
-- Built-in pricing re-verified against the official CN/EN pricing pages (2026-09-18; rates unchanged since the 2026-09-10 adjustment, timestamp only).
-
-
+- Built-in pricing table re-verified against the official CN/EN pricing pages (2026-09-18; rates unchanged since the 2026-09-10 adjustment, timestamp only).
 > A usage, cost, and account-balance dashboard for DeepSeek Harness Web.
 
 [![npm version](https://img.shields.io/npm/v/dsh-usage-chart)](https://www.npmjs.com/package/dsh-usage-chart)

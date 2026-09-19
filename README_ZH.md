@@ -1,28 +1,23 @@
 # dsh-usage-chart
 
-## 本 fork 的改动（相对上游 v1.1.6）
+## 本 fork 解决了什么（相对上游 v1.1.6）
 
-[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.6 的**非官方**维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.2`；沿用上游 MIT 许可与署名，未获原作者背书。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**，先给结论：
+[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.6 的**非官方**维护分支：默认分支 `dsh-0.1.5`，当前发布 `v1.1.5-dsh.2`；沿用上游 MIT 许可与署名，未获原作者背书。逐条的「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**。
 
-**兼容适配**
+**这里修好的问题（你会实际遇到的）**
 
-- **DSH ≥ 0.1.2 会话节点换了来源**：节点已搬去独立 chat 槽位源（`props.useChat`），旧读法 `session.chat.legacy.nodes` 恒为空数组 → 修好后「本轮 ≈ ¥0.0x」成本徽章、指示器行的模型名、面板实时回退轮次都恢复正常（已提上游 [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)）。
-- **fixed 面板定位基准被皮肤改写**：maid-atelier 给 dock 子元素加 `backdrop-filter`，使 `position: fixed` 的包含块变成指示器行本身 → 换算后不再把面板甩到屏幕右侧。
+- **升级 DSH 后「本轮 ≈ ¥0.0x」成本徽章不见了** —— 指示器行的模型名、面板在拿不到宿主历史时的回退轮次也一起消失，而且不报错：DSH 0.1.2 起把会话数据搬到了新的 chat 槽位源，插件还在读旧位置。现在全部恢复（已提上游 [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)）。
+- **装了皮肤 / 主题后，用量面板会跑到屏幕一边** —— 面板是浮层，皮肤的模糊、变换等效果会悄悄改掉它的定位基准。**换成了兼容性更好的面板算法**：不再假设「视口永远是基准」，任何皮肤下面板都贴在「用量」按钮上方；没装这类皮肤时落点与改动前完全一致。
+- **`pricing.json` 自定义价格从来不生效** —— 价格文件的监听在插件启动时就把自己关掉了，写什么都不管用。已修复，并已随上游 v1.1.6 发布（[PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)）。
+- **「会话总计」和每轮徽章之和对不上（高峰时段最多差一倍）** —— 原来的总计是「整个会话的 token × 你打开面板那一刻的价格」。现在**把成本计算的颗粒度提高到每一轮对话**：每轮按自己发生的时段和模型计价，总计 = 各轮徽章之和，也不会再因为你什么时候打开而变数字。
 
-**缺陷修复**
+**更好用**
 
-- **`pricing.json` 价格覆盖从未生效**（上游同病）：`ctx.effect` 写成了「当场调用 dispose」，文件源在 apply 阶段就被销毁 → 现在覆盖价与文件变更监听都能工作；已随上游 v1.1.6 合并收录（[PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)）。
-- **会话总计口径**：原为「当前时段 × 会话总量」估算，高峰时段与逐轮徽章之和最多差一倍 → 改为 **Σ 各轮成本**；指示器行的模型名在 0.1.2+ 上回退取最后一轮历史。
-
-**新增功能**
-
-- **用量面板可拖动**：顶部把手拖动、位置持久化（`localStorage: dsh-usage-chart:panel-pos`）、双击「用量」按钮复位到按钮正上方。
+- **面板可拖动**：拖动顶部把手，位置会被记住；双击「用量」按钮复位到按钮正上方。
 
 **维护**
 
-- 内置定价表按官方中英文定价页复核（2026-09-18；数值与上游 2026-09-10 调价一致，仅更新核验时间戳）。
-
-
+- 内置定价表按官方中英文定价页复核（2026-09-18；价格与 2026-09-10 调价一致，仅更新核验时间戳）。
 > DeepSeek 用量 / 成本 / 余额仪表盘 · DSH Web 插件
 
 [![npm version](https://img.shields.io/npm/v/dsh-usage-chart)](https://www.npmjs.com/package/dsh-usage-chart)

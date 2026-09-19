@@ -1,5 +1,7 @@
 # 本 fork 做了什么（相对上游 v1.1.6）
 
+> 写法约定：先说「用户会遇到什么问题、修完变成什么样」，再说技术根因 —— README、CHANGELOG、PR 文案一律按这个顺序写。
+
 - **上游基线**：[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.6（commit `45d0671`，2026-09-19）。
 - **性质与署名**：本仓库是上游的**非官方**维护分支，未获原作者背书；沿用上游 MIT 许可与版权署名（见 `LICENSE` / `THIRD_PARTY_NOTICES.md`）。
 - **本仓库**：`rezon-aki/dsh-usage-chart`，默认分支 `dsh-0.1.5`；`main` 与上游一致，仅用于同步。
