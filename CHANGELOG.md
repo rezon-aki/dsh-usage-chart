@@ -29,7 +29,7 @@ Maintenance release: upstream v1.1.5 (`dacc1f5`) plus the changes below. Symptom
 
 ### Fixed
 
-- **The `pricing.json` override never applied (upstream has the same bug)** — `ctx.effect(() => fileSource.dispose(), …)` is an expression-bodied arrow: it calls `dispose()` while the fiber is built, so the file source dies before its first read; overrides never resolve and the watcher never installs. Now returns a disposer; the test ctx mocks follow cordis semantics (keep the returned disposer, release it in `after()`) and a `/pricing` route regression test covers the override path (fails against the old form). Filed upstream as [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10).
+- **The `pricing.json` override never applied (upstream has the same bug)** — `ctx.effect(() => fileSource.dispose(), …)` is an expression-bodied arrow: it calls `dispose()` while the fiber is built, so the file source dies before its first read; overrides never resolve and the watcher never installs. Now returns a disposer; the test ctx mocks follow cordis semantics (keep the returned disposer, release it in `after()`) and a `/pricing` route regression test covers the override path (fails against the old form). Merged upstream in v1.1.6 ([PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)).
 
 ### Added
 

@@ -30,7 +30,7 @@ fork 维护版本：上游 v1.1.5（`dacc1f5`）+ 下列改动。逐条「现象
 
 ### 修复
 
-- **`pricing.json` 价格覆盖从未生效（上游同病）**——`ctx.effect(() => fileSource.dispose(), …)` 是表达式体箭头：注册时当场调用 `dispose()`，文件源在 apply 阶段即被销毁，覆盖价不参与解析、变更监听也不建立。改为返回 disposer；测试 ctx mock 按 cordis 语义重写（保留 disposer、`after()` 释放），新增 `/pricing` 路由回归用例（旧写法下失败）。已提上游 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)。
+- **`pricing.json` 价格覆盖从未生效（上游同病）**——`ctx.effect(() => fileSource.dispose(), …)` 是表达式体箭头：注册时当场调用 `dispose()`，文件源在 apply 阶段即被销毁，覆盖价不参与解析、变更监听也不建立。改为返回 disposer；测试 ctx mock 按 cordis 语义重写（保留 disposer、`after()` 释放），新增 `/pricing` 路由回归用例（旧写法下失败）。已随上游 v1.1.6 合并收录（[PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)）。
 
 ### 新增
 
