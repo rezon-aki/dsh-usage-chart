@@ -2,7 +2,7 @@
 
 ## What this fork changes (vs upstream v1.1.5)
 
-A maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.1`. Symptom → root cause → fix for each item lives in **[FORK_NOTES.md](./FORK_NOTES.md)**; summary:
+A maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.5 — default branch `dsh-0.1.5`, current release `v1.1.5-dsh.2`. Symptom → root cause → fix for each item lives in **[FORK_NOTES.md](./FORK_NOTES.md)**; summary:
 
 **Compatibility**
 
@@ -12,6 +12,7 @@ A maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Sams
 **Fixes**
 
 - **The `pricing.json` override never applied** (upstream has the same bug): `ctx.effect` was written as a call, so the file source was disposed at apply time → overrides and the file watcher work now. Filed upstream as [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10).
+- **Session total semantics**: it was estimated as "current tier × session totals", up to 2× off from the sum of the per-turn badges during peak hours → now it is the **sum of per-round costs**, and the indicator's model chip falls back to the last round in history on 0.1.2+.
 
 **Features**
 
