@@ -1,5 +1,21 @@
 # dsh-usage-chart
 
+## 本 fork 是什么（相对上游 v1.1.7）
+
+[Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.7 的**非官方**维护分支：默认分支 `dsh-0.1.5`；沿用上游 MIT 许可与署名，未获原作者背书。逐条「现象 → 根因 → 修法」见 **[FORK_NOTES.md](./FORK_NOTES.md)**。
+
+**这里比上游多的功能**
+
+- **用量面板可拖动**：按住面板顶部的把手即可把它挪到不挡正文的位置，位置记在浏览器里（刷新 / 重开窗口保持）；**双击「用量」按钮**复位到按钮正上方；拖动被夹在最近的定位包含块内，拖不出可视区。已在上游提 issue（[#16](https://github.com/Max-Samson/dsh-usage-chart/issues/16)），对方要的话会以 PR 形式回收。
+
+**曾由本 fork 修复、现已随上游发布**（从上游装同样能拿到，这里保留仅作追溯）
+
+- 升级 DSH 0.1.2+ 后成本徽章 / 模型名消失 —— 上游 [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)
+- 装了皮肤 / 主题后用量面板偏到屏幕一边 —— 上游 [PR #14](https://github.com/Max-Samson/dsh-usage-chart/pull/14)
+- 「会话总计」与逐轮徽章之和对不上 —— 上游 [PR #15](https://github.com/Max-Samson/dsh-usage-chart/pull/15)
+- `pricing.json` 自定义价格不生效 —— 上游 [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10)（v1.1.6）
+
+
 > DeepSeek 用量 / 成本 / 余额仪表盘 · DSH Web 插件
 
 [![npm version](https://img.shields.io/npm/v/dsh-usage-chart)](https://www.npmjs.com/package/dsh-usage-chart)

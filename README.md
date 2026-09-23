@@ -1,5 +1,21 @@
 # dsh-usage-chart
 
+## What this fork is (vs upstream v1.1.7)
+
+An **unofficial** maintenance branch of [Max-Samson/dsh-usage-chart](https://github.com/Max-Samson/dsh-usage-chart) v1.1.7 — default branch `dsh-0.1.5`. It keeps the upstream MIT license and attribution and is not endorsed by the original author. Per-item symptom → root cause → fix notes live in **[FORK_NOTES.md](./FORK_NOTES.md)**.
+
+**What it adds on top of upstream**
+
+- **The usage panel can be dragged**: grab the handle at the top of the panel and move it out of the way; the position is remembered (survives reloads), and double-clicking the "Usage" button resets it right above the button. Movement is clamped to the nearest containing block, so it never leaves the visible area. Filed upstream as [#16](https://github.com/Max-Samson/dsh-usage-chart/issues/16) — it will come back as a PR if the maintainer wants it.
+
+**Fixes this fork carried that upstream has since released** (upstream installs get them too; kept here for traceability)
+
+- Cost badges / model name disappearing on DSH 0.1.2+ — upstream [PR #12](https://github.com/Max-Samson/dsh-usage-chart/pull/12)
+- Panel drifting to one side under themed docks — upstream [PR #14](https://github.com/Max-Samson/dsh-usage-chart/pull/14)
+- Session total not matching the per-round badges — upstream [PR #15](https://github.com/Max-Samson/dsh-usage-chart/pull/15)
+- `pricing.json` overrides never taking effect — upstream [PR #10](https://github.com/Max-Samson/dsh-usage-chart/pull/10) (v1.1.6)
+
+
 > A usage, cost, and account-balance dashboard for DeepSeek Harness Web.
 
 [![npm version](https://img.shields.io/npm/v/dsh-usage-chart)](https://www.npmjs.com/package/dsh-usage-chart)
